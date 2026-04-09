@@ -288,3 +288,64 @@ POST:
 - Add graphql support
 - Add pagination
 - Add another language support
+
+## Ejecucion e inicializacion local
+
+### Variables de entorno
+
+El proyecto usa `./.env` con esta configuracion:
+
+```env
+PORT=8765
+
+DB_HOST=localhost
+DB_USERNAME=root
+DB_PASSWORD=example
+DB_NAME=fake_store
+DB_PORT=27017
+DATABASE_URL=mongodb://$DB_USERNAME:$DB_PASSWORD@$DB_HOST:$DB_PORT/$DB_NAME?authSource=admin
+```
+
+### Levantar solo MongoDB con Docker
+
+```bash
+docker compose up -d db
+docker compose ps
+```
+
+### Ejecutar el servidor (local)
+
+```bash
+npm install
+npm start
+```
+
+Servidor disponible en `http://localhost:8765` (o el `PORT` definido en `.env`).
+
+### Importar datos iniciales en MongoDB
+
+Con MongoDB levantado, ejecuta:
+
+```bash
+npm run seed
+```
+
+El seed en `seed.js`:
+
+- se conecta usando `DATABASE_URL` desde `.env`
+- limpia las colecciones `users`, `products` y `carts`
+- inserta datos de prueba iniciales
+
+### Levantar app + db con Docker Compose (opcional)
+
+```bash
+docker compose up -d
+npm run seed
+```
+
+### Comandos utiles
+
+```bash
+docker compose logs -f db
+docker compose down
+```
