@@ -149,7 +149,7 @@ async function seedDatabase() {
   mongoose.set('useFindAndModify', false);
   mongoose.set('useUnifiedTopology', true);
 
-  await mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true });
+  await mongoose.connect(process.env.DATABASE_URL_SEED, { useNewUrlParser: true });
 
   await Promise.all([
     Cart.deleteMany({}),
